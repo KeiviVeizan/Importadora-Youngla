@@ -1,0 +1,18 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+:root{
+    --color-bg: rgb(62, 62, 153);
+    --color-border: rgb(62, 62, 153);
+    --color-text-a: #1f1f1f; 
+    --color-text-a-hover: rgb(62, 62, 153);
+    --font-famili-h1: gray; 
+    --color-text-h1: #f1f1f1; 
+    --color-text-h1-sp:#C2F952;
+    --color-button: #C2F952; 
+    --color-text-button: #161D08;
+    --color-box-shadow: rgb(156, 152, 152);
+
+}
