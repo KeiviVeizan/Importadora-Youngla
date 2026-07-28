@@ -9,7 +9,7 @@ import Layout from "../layouts/Layout.astro"
 			<div class="section-text-inicio">
 				<h1>Ropa que impulsa  <span class="h1-color">Tu mejor Versión</span></h1>
 				<p>
-					importamos las mejores marcas del mundo para potenciar tu entrenamiento y tu estilo.
+					Importamos las mejores marcas del mundo para potenciar tu entrenamiento y tu estilo.
 				</p>
 				<div class="section-text-final">
 					<a href="/">Explorar Colección</a>
@@ -34,7 +34,7 @@ import Layout from "../layouts/Layout.astro"
 		background-size: cover;		
 
 		width: 100%;
-		height: 100dvh;
+		height: 100vh;
 	}
 	.section-text-inicio{
 		width: 100%;
@@ -52,13 +52,13 @@ import Layout from "../layouts/Layout.astro"
 		color: var(--color-text-h1);
 		max-width: 65%;
 		margin: 1rem 0rem;
-	}
+		font-size: clamp(var(--font-size-small-h1),var(--font-size-medium-h1),var(--font-size-desktop-h1));
+		}
 	.h1-color{
 		color: var(--color-text-h1-sp);
 	}
-	.section-text-final, .section-text-inicio p{
-		max-width: 60%;
-		color: white;
+	.section-text-final{
+		width: 100%;
 	}
 	.section-text-final a{
 		display: inline-block;
@@ -69,7 +69,32 @@ import Layout from "../layouts/Layout.astro"
 		color: var(--color-text-button);
 		margin: 1rem 0rem;
 	}
-	.section-text-final p{
-		font-size: .65rem;
+	.pag-inicio p{
+		max-width: 60%;
+		color: white;
+		font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
+		line-height: 1.4;
+		letter-spacing: var(--letter-spacing-p);
+	}
+	@media(min-width: 1024px){
+		.section-text-inicio h1{
+			max-width: 48%;
+			font-size: 4rem;
+		}
+		.section-text-inicio p{
+			max-width: 43%;
+		}
+		.section-text-final{
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			max-width: 45%;
+		}
+		.section-text-final a{
+			margin-right: 3rem;
+		}
+		.section-text-final p{
+			max-width: 43%;
+		}
 	}
 </style>
