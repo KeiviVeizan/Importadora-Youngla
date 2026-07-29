@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro"
+import {ArrowRight, ShieldCheck} from "@lucide/astro"
+import InformationHome from "../components/information-home.astro"
 ---
 
 <Layout>
@@ -12,14 +14,15 @@ import Layout from "../layouts/Layout.astro"
 					Importamos las mejores marcas del mundo para potenciar tu entrenamiento y tu estilo.
 				</p>
 				<div class="section-text-final">
-					<a href="/">Explorar Colección</a>
-					<p>Productos 100% originales</p>
+					<a href="/">Explorar Colección <ArrowRight size="1em"/></a>
+					<p><ShieldCheck size="1em"/>Productos 100% originales</p>
 				</div>
 			</div>
 		</section>
+		<InformationHome/>
 	</main>
 </Layout>
-<style>
+<style>s
 	.pag-inicio{
 		position: relative;
 		width: 100%;
@@ -53,6 +56,7 @@ import Layout from "../layouts/Layout.astro"
 		max-width: 65%;
 		margin: 1rem 0rem;
 		font-size: clamp(var(--font-size-small-h1),var(--font-size-medium-h1),var(--font-size-desktop-h1));
+		letter-spacing: var(--letter-spacing-h1);
 		}
 	.h1-color{
 		color: var(--color-text-h1-sp);
@@ -61,13 +65,16 @@ import Layout from "../layouts/Layout.astro"
 		width: 100%;
 	}
 	.section-text-final a{
-		display: inline-block;
+		display: inline-flex;
+		align-items:center;
+		gap: .5rem;
 		background-color: var(--color-button);
 		padding: 1rem;
 		border-radius: 3rem;
 		text-decoration: none;
 		color: var(--color-text-button);
 		margin: 1rem 0rem;
+		font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
 	}
 	.pag-inicio p{
 		max-width: 60%;
@@ -75,6 +82,11 @@ import Layout from "../layouts/Layout.astro"
 		font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
 		line-height: 1.4;
 		letter-spacing: var(--letter-spacing-p);
+	}
+	.section-text-final p{
+		display: flex;
+		align-items: center;
+		gap: .3rem;
 	}
 	@media(min-width: 1024px){
 		.section-text-inicio h1{
