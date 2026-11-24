@@ -1,0 +1,96 @@
+---
+import { ShieldCheck, CircleDollarSign, Plane, Truck } from "@lucide/astro"
+import SectionTitle from "./SectionTitle.astro"
+
+// Para cambiar un beneficio: edita este arreglo.
+const beneficios = [
+    { icon: ShieldCheck, title: "100% Originales", description: "Todos nuestros productos son adquiridos directamente de las tiendas oficiales." },
+    { icon: CircleDollarSign, title: "Precios en USD", description: "Trabajamos en dólares para mantener precios claros y actualizados." },
+    { icon: Plane, title: "Importaciones seguras", description: "Decenas de clientes ya recibieron sus pedidos satisfactoriamente." },
+    { icon: Truck, title: "Entrega nacional", description: "Entregas presenciales en La Paz y envíos a todo Bolivia." },
+]
+---
+<section class="beneficios" aria-labelledby="beneficios-titulo">
+    <SectionTitle eyebrow="Confianza" title="¿Por qué comprar con nosotros?" id="beneficios-titulo" />
+    <ul class="beneficios-lista">
+        {
+            beneficios.map((b, i) => (
+                <li class="beneficio" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+                    <span class="beneficio-icono"><b.icon size="1.6rem" stroke-width={1.5} /></span>
+                    <h3>{b.title}</h3>
+                    <p>{b.description}</p>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+<style>
+    .beneficios{
+        width: 100%;
+        max-width: 90%;
+        margin: 3rem auto;
+    }
+    .beneficios-lista{
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: .75rem;
+    }
+    .beneficio{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: .6rem;
+        padding: 1.25rem .9rem;
+        background: #fff;
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-card);
+        transition: transform .3s var(--ease-out), box-shadow .3s;
+    }
+    .beneficio:hover{
+        transform: translateY(-4px);
+        box-shadow: 0 .6rem 1.5rem rgba(0,0,0,.08);
+    }
+    .beneficio-icono{
+        display: grid;
+        place-items: center;
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 50%;
+        background: var(--color-gray-bg);
+        color: var(--color-dark);
+        transition: background-color .3s, transform .4s var(--ease-out);
+    }
+    .beneficio:hover .beneficio-icono{
+        background: var(--color-button);
+        transform: rotate(-8deg) scale(1.08);
+    }
+    .beneficio h3{
+        font-size: .95rem;
+        color: var(--color-dark);
+    }
+    .beneficio p{
+        font-size: .8rem;
+        line-height: 1.4;
+        color: var(--color-muted);
+        letter-spacing: var(--letter-spacing-text);
+    }
+    @media(min-width: 768px){
+        .beneficios-lista{
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+        .beneficio{
+            padding: 1.75rem 1.25rem;
+        }
+        .beneficio p{
+            font-size: .875rem;
+        }
+    }
+    @media(min-width: 1024px){
+        .beneficios{
+            max-width: 80rem;
+        }
+    }
+</style>

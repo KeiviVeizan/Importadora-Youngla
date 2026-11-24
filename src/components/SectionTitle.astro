@@ -1,0 +1,49 @@
+---
+// Encabezado común de las secciones del inicio.
+const { eyebrow, title, subtitle, id } = Astro.props
+---
+<header class="section-title" data-reveal>
+    {eyebrow && <span class="section-title__eyebrow">{eyebrow}</span>}
+    <h2 id={id}>{title}</h2>
+    {subtitle && <p>{subtitle}</p>}
+</header>
+<style>
+    .section-title{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .6rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .section-title__eyebrow{
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+    }
+    .section-title__eyebrow::before{
+        content: "";
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background: var(--color-button);
+    }
+    h2{
+        font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-h1);
+        line-height: 1.1;
+        color: var(--color-dark);
+    }
+    p{
+        max-width: 36rem;
+        color: var(--color-muted);
+        font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
+        letter-spacing: var(--letter-spacing-text);
+    }
+</style>

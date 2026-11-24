@@ -1,0 +1,100 @@
+---
+import { Plus } from "@lucide/astro"
+import SectionTitle from "./SectionTitle.astro"
+
+// Para cambiar una pregunta o respuesta: edita este arreglo.
+const preguntas = [
+    { pregunta: "¿Cuánto tarda en llegar mi pedido?", respuesta: "Normalmente entre 2 y 4 semanas desde que confirmas tu reserva, según la marca y el stock disponible." },
+    { pregunta: "¿Trabajan con dólares?", respuesta: "Sí. Manejamos los precios en USD para que siempre sean claros y estén actualizados." },
+    { pregunta: "¿Hacen envíos a todo Bolivia?", respuesta: "Sí. Hacemos entregas presenciales en La Paz y envíos a todo el país." },
+    { pregunta: "¿Los productos son originales?", respuesta: "Todos nuestros productos se compran directamente en las tiendas oficiales de cada marca." },
+]
+---
+<section class="faq" aria-labelledby="faq-titulo">
+    <SectionTitle eyebrow="Ayuda" title="Preguntas frecuentes" id="faq-titulo" />
+    <div class="faq-lista">
+        {
+            preguntas.map((p, i) => (
+                <details class="faq-item" data-reveal style={`--reveal-delay:${i * 70}ms`}>
+                    <summary>
+                        <span>{p.pregunta}</span>
+                        <Plus class="faq-icono" size="1.2rem" aria-hidden="true" />
+                    </summary>
+                    <p>{p.respuesta}</p>
+                </details>
+            ))
+        }
+    </div>
+</section>
+<style>
+    .faq{
+        width: 100%;
+        max-width: 90%;
+        margin: 3rem auto 4rem;
+    }
+    .faq-lista{
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        max-width: 44rem;
+        margin: 0 auto;
+    }
+    .faq-item{
+        background: #fff;
+        border: 1px solid var(--color-border-soft);
+        border-radius: 1.2rem;
+        transition: border-color .3s, box-shadow .3s;
+    }
+    .faq-item[open]{
+        border-color: var(--color-button);
+        box-shadow: 0 .4rem 1.2rem rgba(0,0,0,.06);
+    }
+    .faq-item summary{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.1rem 1.25rem;
+        cursor: pointer;
+        list-style: none;
+        font-weight: 600;
+        font-size: .95rem;
+        color: var(--color-dark);
+        border-radius: 1.2rem;
+    }
+    .faq-item summary::-webkit-details-marker{
+        display: none;
+    }
+    .faq-item summary:focus-visible{
+        outline: 3px solid var(--color-button);
+        outline-offset: 2px;
+    }
+    .faq-icono{
+        flex: none;
+        transition: transform .3s var(--ease-out);
+    }
+    .faq-item[open] .faq-icono{
+        transform: rotate(45deg);
+    }
+    .faq-item p{
+        padding: 0 1.25rem 1.25rem;
+        color: var(--color-muted);
+        font-size: .9rem;
+        line-height: 1.5;
+        letter-spacing: var(--letter-spacing-text);
+    }
+    /* Mejora progresiva: en navegadores sin soporte simplemente abre sin animación */
+    @supports (interpolate-size: allow-keywords){
+        .faq-item{
+            interpolate-size: allow-keywords;
+        }
+        .faq-item::details-content{
+            block-size: 0;
+            overflow: hidden;
+            transition: block-size .35s var(--ease-out), content-visibility .35s allow-discrete;
+        }
+        .faq-item[open]::details-content{
+            block-size: auto;
+        }
+    }
+</style>

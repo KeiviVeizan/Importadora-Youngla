@@ -1,0 +1,137 @@
+---
+import { ArrowRight } from "@lucide/astro"
+import SectionTitle from "./SectionTitle.astro"
+
+// Para cambiar una imagen: pon el archivo en public/images/categorias y cambia "image".
+const categorias = [
+    { nombre: "Hombre", href: "/products?categoria=hombre", image: "/images/fondo-principal.png", alt: "Ropa deportiva para hombre" }, // reemplazar por /images/categorias/hombre.webp
+    { nombre: "Mujer", href: "/products?categoria=mujer", image: "/images/fondo-principal.png", alt: "Ropa deportiva para mujer" }, // reemplazar por /images/categorias/mujer.webp
+    { nombre: "Accesorios", href: "/products?categoria=accesorios", image: "/images/fondo-principal.png", alt: "Accesorios deportivos" }, // reemplazar por /images/categorias/accesorios.webp
+]
+---
+<section class="categorias" aria-labelledby="categorias-titulo">
+    <SectionTitle eyebrow="Colecciones" title="Encuentra tu estilo" subtitle="Lo mejor de las marcas que amas, elegido para tu entrenamiento." id="categorias-titulo" />
+    <ul class="categorias-lista">
+        {
+            categorias.map((c, i) => (
+                <li class="categoria" data-reveal style={`--reveal-delay:${i * 100}ms`}>
+                    <a href={c.href}>
+                        <img src={c.image} alt={c.alt} width="600" height="800" loading="lazy" decoding="async" />
+                        <span class="categoria-info">
+                            <span class="categoria-nombre">{c.nombre}</span>
+                            <span class="categoria-boton">Ver más <ArrowRight size="1em" /></span>
+                        </span>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+<style>
+    .categorias{
+        width: 100%;
+        max-width: 90%;
+        margin: 3rem auto;
+    }
+    /* Móvil: carrusel con snap. Desktop: grid de 3 columnas. */
+    .categorias-lista{
+        list-style: none;
+        display: flex;
+        gap: .9rem;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-bottom: .5rem;
+        scrollbar-width: none;
+    }
+    .categorias-lista::-webkit-scrollbar{
+        display: none;
+    }
+    .categoria{
+        flex: 0 0 78%;
+        scroll-snap-align: center;
+    }
+    .categoria a{
+        position: relative;
+        display: block;
+        aspect-ratio: 3 / 4;
+        border-radius: var(--radius-card);
+        overflow: hidden;
+        background: var(--color-dark);
+        color: #fff;
+        text-decoration: none;
+    }
+    .categoria img{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .7s var(--ease-out);
+    }
+    .categoria a::after{
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,0) 55%);
+    }
+    .categoria-info{
+        position: absolute;
+        z-index: 1;
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .75rem;
+    }
+    .categoria-nombre{
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-h1);
+        line-height: 1;
+    }
+    .categoria-boton{
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .55rem 1rem;
+        border-radius: 3rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+        font-size: .85rem;
+        font-weight: 600;
+        transition: gap .3s var(--ease-out), transform .3s var(--ease-out);
+    }
+    .categoria a:hover img,
+    .categoria a:focus-visible img{
+        transform: scale(1.06);
+    }
+    .categoria a:hover .categoria-boton,
+    .categoria a:focus-visible .categoria-boton{
+        gap: .75rem;
+        transform: translateY(-2px);
+    }
+    .categoria a:focus-visible{
+        outline: 3px solid var(--color-button);
+        outline-offset: 3px;
+    }
+    @media(min-width: 768px){
+        .categorias-lista{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            overflow: visible;
+            gap: 1.25rem;
+            padding-bottom: 0;
+        }
+        .categoria{
+            flex: initial;
+        }
+    }
+    @media(min-width: 1024px){
+        .categorias{
+            max-width: 80rem;
+        }
+    }
+</style>

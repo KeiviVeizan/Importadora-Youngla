@@ -1,0 +1,147 @@
+---
+import { MessageCircle } from "@lucide/astro"
+import youngla from "../assets/marcas/youngla.svg"
+import gymshark from "../assets/marcas/gymshark-logo.webp"
+import lululemon from "../assets/marcas/lululemon.svg"
+import aybl from "../assets/marcas/aybl.svg"
+
+// TODO: reemplazar 591XXXXXXXX por el número real de WhatsApp (con código de país, sin + ni espacios).
+const whatsapp = "https://wa.me/59173532233?text=" + encodeURIComponent("Hola, quiero solicitar un producto que no encontré en la web.")
+// Para cambiar la imagen: pon el archivo en public/images y cambia la ruta. (sugerido: /images/solicitar-celular.webp)
+const imagen = "/images/fondo-principal.png"
+
+const marcas = [
+    { nombre: "YoungLA", src: youngla.src },
+    { nombre: "Gymshark", src: gymshark.src },
+    { nombre: "lululemon", src: lululemon.src },
+    { nombre: "AYBL", src: aybl.src },
+]
+---
+<section class="solicitar" aria-labelledby="solicitar-titulo">
+    <div class="solicitar-banner" data-reveal>
+        <div class="solicitar-texto">
+            <h2 id="solicitar-titulo">¿No encontraste lo que buscas?</h2>
+            <p>Si existe en la página oficial, podemos ayudarte a traerlo. Tú pides, nosotros lo importamos.</p>
+            <ul class="solicitar-marcas">
+                {marcas.map((m) => <li><img src={m.src} alt={`Logo de ${m.nombre}`} loading="lazy" decoding="async" /></li>)}
+            </ul>
+            <a class="solicitar-boton" href={whatsapp} target="_blank" rel="noopener noreferrer">
+                <MessageCircle size="1.1em" /> Solicitar producto
+            </a>
+        </div>
+        <div class="solicitar-imagen">
+            <img src={imagen} alt="Celular mostrando un producto de una tienda oficial" width="600" height="600" loading="lazy" decoding="async" />
+        </div>
+    </div>
+</section>
+<style>
+    .solicitar{
+        width: 100%;
+        max-width: 90%;
+        margin: 3rem auto;
+    }
+    .solicitar-banner{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.75rem 1.25rem 0;
+        background: linear-gradient(120deg, #fff 30%, #dcdcd6 100%);
+        border: 1px solid var(--color-border-soft);
+        border-radius: var(--radius-card);
+        overflow: hidden;
+    }
+    .solicitar-texto{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .solicitar-texto h2{
+        font-size: clamp(1.5rem, 5vw, 2.4rem);
+        line-height: 1.1;
+        letter-spacing: var(--letter-spacing-h1);
+        color: var(--color-dark);
+        max-width: 18ch;
+    }
+    .solicitar-texto p{
+        max-width: 32rem;
+        color: var(--color-muted);
+        font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
+        line-height: 1.4;
+        letter-spacing: var(--letter-spacing-text);
+    }
+    .solicitar-marcas{
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .75rem 1.25rem;
+    }
+    .solicitar-marcas img{
+        display: block;
+        height: 1.1rem;
+        width: auto;
+        max-width: 5.5rem;
+        object-fit: contain;
+        filter: grayscale(1);
+        opacity: .75;
+    }
+    .solicitar-boton{
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        padding: 1rem 1.4rem;
+        border-radius: 3rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform .3s var(--ease-out), box-shadow .3s;
+    }
+    .solicitar-boton:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 .5rem 1.2rem rgba(194,249,82,.55);
+    }
+    .solicitar-imagen{
+        align-self: center;
+        width: min(100%, 22rem);
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-radius: 1.2rem 1.2rem 0 0;
+    }
+    .solicitar-imagen img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: flotar 5s ease-in-out infinite;
+    }
+    @keyframes flotar{
+        0%, 100%{ transform: translateY(0); }
+        50%{ transform: translateY(-8px); }
+    }
+    @media(min-width: 768px){
+        .solicitar-banner{
+            flex-direction: row;
+            align-items: center;
+            padding: 2.5rem 0 2.5rem 2.5rem;
+        }
+        .solicitar-texto{
+            flex: 1;
+        }
+        .solicitar-imagen{
+            flex: 0 0 40%;
+            width: auto;
+            aspect-ratio: 1;
+            border-radius: 1.2rem 0 0 1.2rem;
+        }
+    }
+    @media(min-width: 1024px){
+        .solicitar{
+            max-width: 80rem;
+        }
+        .solicitar-banner{
+            padding: 3rem 0 3rem 4rem;
+        }
+    }
+</style>

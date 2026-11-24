@@ -3,6 +3,11 @@ import Layout from "../layouts/Layout.astro"
 import {ArrowRight, ShieldCheck} from "@lucide/astro"
 import InformationHome from "../components/information-home.astro"
 import MarcasHome from "../components/Section1-Home.astro"
+import BeneficiosHome from "../components/beneficios-home.astro"
+import CategoriasHome from "../components/categorias-home.astro"
+import SolicitarHome from "../components/solicitar-home.astro"
+import TestimoniosHome from "../components/testimonios-home.astro"
+import FaqHome from "../components/faq-home.astro"
 ---
 
 <Layout>
@@ -22,8 +27,16 @@ import MarcasHome from "../components/Section1-Home.astro"
 		</section>
 		<MarcasHome/>
 		<InformationHome/>
+		<BeneficiosHome/>
+		<CategoriasHome/>
+		<SolicitarHome/>
+		<TestimoniosHome/>
+		<FaqHome/>
 	</main>
 </Layout>
+<script>
+	import "../scripts/home-animations"
+</script>
 <style>
 	.pag-inicio{
 		position: relative;
