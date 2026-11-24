@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro"
 import {ArrowRight, ShieldCheck} from "@lucide/astro"
 import InformationHome from "../components/information-home.astro"
+import MarcasHome from "../components/Section1-Home.astro"
 ---
 
 <Layout>
@@ -19,14 +20,15 @@ import InformationHome from "../components/information-home.astro"
 				</div>
 			</div>
 		</section>
+		<MarcasHome/>
 		<InformationHome/>
 	</main>
 </Layout>
-<style>s
+<style>
 	.pag-inicio{
 		position: relative;
 		width: 100%;
-		height: 100dvh;
+		height: 100vh;
 	}
 	.imagen{
 		position: absolute;

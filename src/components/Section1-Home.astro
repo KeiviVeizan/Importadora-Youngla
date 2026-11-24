@@ -1,0 +1,106 @@
+---
+import fs from "node:fs/promises"
+import path from "node:path"
+import sharp from "sharp"
+
+// Para agregar o quitar una marca: pon el archivo en src/assets/marcas y añádelo aquí.
+// No hace falta recortar ni ajustar el logo: se recorta el margen y se escala solo.
+const marcas = [
+    { nombre: "YoungLA", archivo: "youngla.svg" },
+    { nombre: "Gymshark", archivo: "gymshark-logo.webp" },
+    { nombre: "lululemon", archivo: "lululemon.svg" },
+    { nombre: "Alphalete", archivo: "alphalete.svg" },
+    { nombre: "AYBL", archivo: "aybl.svg" },
+    { nombre: "Darc Sport", archivo: "darc-sport.svg" },
+    { nombre: "Rawgear", archivo: "rawgear.svg" },
+]
+
+const dir = path.join(process.cwd(), "src/assets/marcas")
+
+const logos = await Promise.all(
+    marcas.map(async (marca) => {
+        const original = await fs.readFile(path.join(dir, marca.archivo))
+        const buffer = await sharp(original, { density: 300 })
+            .trim({ threshold: 30 }) // quita el margen vacío alrededor del logo
+            .resize({ width: 600, height: 160, fit: "inside", withoutEnlargement: false })
+            .webp({ quality: 90 })
+            .toBuffer({ resolveWithObject: true })
+        return {
+            nombre: marca.nombre,
+            src: `data:image/webp;base64,${buffer.data.toString("base64")}`,
+            width: buffer.info.width,
+            height: buffer.info.height,
+        }
+    }),
+)
+---
+<section class="marcas" aria-labelledby="marcas-titulo">
+    <h2 id="marcas-titulo">Trabajamos con las mejores marcas</h2>
+    <ul class="marcas-lista">
+        {
+            logos.map((marca) => (
+                <li>
+                    <img src={marca.src} width={marca.width} height={marca.height} alt={`Logo de ${marca.nombre}`} class="marca-logo" loading="lazy" />
+                </li>
+            ))
+        }
+    </ul>
+</section>
+<style>
+    .marcas{
+        width: 100%;
+        max-width: 90%;
+        margin: 2rem auto;
+        padding: 1.5rem 1rem;
+        background-color: #fff;
+        border-radius: 1.5rem;
+        box-shadow: 0 .5rem 1.5rem var(--color-box-shadow);
+    }
+    .marcas h2{
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: var(--color-text-a);
+        font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
+        letter-spacing: var(--letter-spacing-text);
+        margin-bottom: 1.5rem;
+    }
+    .marcas-lista{
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem 0;
+    }
+    .marcas-lista li{
+        flex: 0 0 50%;
+        display: flex;
+        justify-content: center;
+    }
+    .marca-logo{
+        /* Caja fija: todos los logos ocupan el mismo espacio sin importar su proporción */
+        width: 9rem;
+        height: 2.5rem;
+        max-width: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+    @media(min-width: 768px){
+        .marcas-lista li{
+            flex-basis: 33.333%;
+        }
+    }
+    @media(min-width: 1024px){
+        .marcas{
+            padding: 2rem;
+        }
+        .marcas-lista li{
+            flex-basis: 25%;
+        }
+        .marca-logo{
+            width: 11rem;
+            height: 3rem;
+        }
+    }
+</style>
