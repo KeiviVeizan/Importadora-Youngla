@@ -8,7 +8,7 @@ const currentPath = Astro.url.pathname
             <ul>
                 <li><a href="/" class:list={[{active: currentPath === '/'}]}>Inicio</a></li>
                 <li><a href="/about-us" class:list={[{active: currentPath === '/about-us'}]}>Acerca de Nosotros</a></li>
-                <li><a href="/products"class:list={[{active: currentPath === '/products'}]}>Productos</a></li>
+                <li><a href="/products" class:list={[{active: currentPath === '/products'}]}>Productos</a></li>
             </ul>
         </div>       
     </nav>
@@ -20,7 +20,7 @@ const currentPath = Astro.url.pathname
     }   
     .menu-nav{
         background-color: var(--color-bg);
-        backdrop-filter: blur(16px) saturate (150%);  
+        backdrop-filter: blur(16px) saturate(150%);
         -webkit-backdrop-filter: blur(16px) saturate(150%);
         padding: 1.2rem 0rem;
         border: .1rem solid var(--color-border);
@@ -32,9 +32,21 @@ const currentPath = Astro.url.pathname
         bottom: .7rem;
         box-shadow: 1px 5px 5px 1px var(--color-box-shadow);
         z-index: 50;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease;
+    }
+    .menu-nav.scrolled{
+        background-color: rgba(255, 255, 255, 0.22);
+        background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.05) 60%);
+        backdrop-filter: blur(28px) saturate(200%) brightness(1.08);
+        -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.08);
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.15),
+            inset 0 1px 1px rgba(255, 255, 255, 0.9),
+            inset 0 -1px 1px rgba(255, 255, 255, 0.35);
     }
     .logo{
         display: none;
+        font-weight: 700;
     }
 
     .menu-nav ul{
@@ -57,6 +69,7 @@ const currentPath = Astro.url.pathname
         color: transparent;
         font-family: Arial, Helvetica, sans-serif;
         font-size: clamp(var(--font-size-small), var(--font-size-medium), var(--font-size-desktop));
+        font-weight: 600;
         transition: background-position 0.4s ease;
     }
     .menu-nav a:hover{
@@ -88,9 +101,21 @@ const currentPath = Astro.url.pathname
         .menu-nav a.active{
             color: var(--color-button);
         }
+        .menu-nav.scrolled a.active{
+            color: var(--color-text-a-hover);
+        }
+    }
     @media(min-width: 1440px){
         .menu-nav a{
             margin: 0rem 1rem;
         }
     }
 </style>
+<script>
+    const nav = document.querySelector('.menu-nav')
+    const toggleScrolled = () => {
+        nav?.classList.toggle('scrolled', window.scrollY > 10)
+    }
+    toggleScrolled()
+    window.addEventListener('scroll', toggleScrolled, { passive: true })
+</script>
