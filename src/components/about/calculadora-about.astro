@@ -1,0 +1,326 @@
+---
+import { MessageCircle, Info } from "@lucide/astro"
+import SectionTitle from "../SectionTitle.astro"
+import { CONFIG } from "../../scripts/calculadora-config"
+
+// Pesos típicos de referencia: edita este arreglo.
+const pesosTipicos = [
+    { nombre: "Polera", kg: 0.3 },
+    { nombre: "Jogger", kg: 0.6 },
+    { nombre: "Hoodie", kg: 0.8 },
+    { nombre: "Campera", kg: 1.2 },
+]
+
+// Filas del desglose: la clave debe coincidir con data-out en el script.
+const filas = [
+    { k: "subtotal", label: "Producto" },
+    { k: "taxes", label: "Taxes de la marca" },
+    { k: "peso", label: "Peso → envío (por kg)", extra: "envio" },
+    { k: "servicio", label: `Servicio de importación` },
+    { k: "impuesto", label: `Impuesto (${CONFIG.impuesto}%)` },
+]
+---
+<section class="calc" aria-labelledby="calc-titulo" data-calculadora data-vacio>
+    <SectionTitle
+        eyebrow="Calculadora"
+        title="Calcula cuánto te costaría"
+        subtitle="Ingresa los datos de tu producto y obtén un estimado con todo lo que se cobra, sin preguntar por WhatsApp."
+        id="calc-titulo"
+    />
+    <div class="calc-grid" data-reveal>
+        <form class="calc-form" novalidate>
+            <div class="campo">
+                <label for="c-precio">Precio del producto (USD)</label>
+                <input id="c-precio" name="precio" type="text" inputmode="decimal" placeholder="50" autocomplete="off" />
+            </div>
+            <div class="fila">
+                <div class="campo">
+                    <label for="c-cantidad">Cantidad</label>
+                    <input id="c-cantidad" name="cantidad" type="text" inputmode="numeric" value="1" autocomplete="off" />
+                </div>
+                <div class="campo">
+                    <label for="c-taxes">Taxes de la marca (%)</label>
+                    <input id="c-taxes" name="taxes" type="text" inputmode="decimal" value={CONFIG.taxesDefault} autocomplete="off" />
+                </div>
+            </div>
+            <div class="campo">
+                <label for="c-peso">Peso estimado por unidad (kg)</label>
+                <input id="c-peso" name="peso" type="text" inputmode="decimal" placeholder="0.8" autocomplete="off" />
+                <div class="chips" role="group" aria-label="Pesos típicos">
+                    {pesosTipicos.map((p) => (
+                        <button type="button" class="chip" data-peso={p.kg}>{p.nombre} · {p.kg} kg</button>
+                    ))}
+                </div>
+            </div>
+            <p class="ayuda"><Info size="1em" /> El peso se redondea hacia arriba: 1.4 kg se cobra como 2 kg; un peso exacto como 4 kg se mantiene.</p>
+            <button type="reset" class="limpiar">Limpiar</button>
+        </form>
+
+        <aside class="calc-resultado" aria-label="Resultado de la estimación">
+            <h3>Tu estimado</h3>
+            <dl>
+                {filas.map((f) => (
+                    <div class="linea-res">
+                        <dt>{f.label}</dt>
+                        <dd>
+                            {f.extra ? (
+                                <>
+                                    <small data-out={f.k}>—</small>
+                                    <span data-out={f.extra}></span>
+                                </>
+                            ) : (
+                                <span data-out={f.k}></span>
+                            )}
+                        </dd>
+                    </div>
+                ))}
+            </dl>
+            <div class="total" aria-live="polite">
+                <span>Total estimado</span>
+                <strong data-out="total">$0.00</strong>
+                <em data-out="totalBs">≈ Bs 0,00</em>
+            </div>
+            <div class="anticipo">
+                <div><span>Anticipo 50% (solo por encargo)</span><b data-out="anticipo"></b></div>
+                <div><span>Saldo al recibir</span><b data-out="saldo"></b></div>
+            </div>
+            <a class="cta" data-cta href={`https://wa.me/${CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                <MessageCircle size="1.1em" /> Confirmar precio por WhatsApp
+            </a>
+            <p class="aviso">Estimado referencial. El precio final se confirma al cotizar tu pedido.</p>
+        </aside>
+    </div>
+</section>
+<script>
+    import "../../scripts/calculadora"
+</script>
+<style>
+    .calc{
+        width: 100%;
+        max-width: 90%;
+        margin: 4rem auto;
+    }
+    .calc-grid{
+        display: grid;
+        gap: 1rem;
+        max-width: 60rem;
+        margin: 0 auto;
+    }
+    .calc-form,
+    .calc-resultado{
+        padding: 1.25rem;
+        border-radius: var(--radius-card);
+    }
+    .calc-form{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--color-gray-bg);
+    }
+    .fila{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .75rem;
+    }
+    .campo{
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+    }
+    label{
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--color-dark);
+    }
+    input{
+        width: 100%;
+        min-height: 48px;
+        padding: .7rem 1rem;
+        border: 1px solid var(--color-border-soft);
+        border-radius: .9rem;
+        background: #fff;
+        font: inherit;
+        font-size: 1rem;
+        color: var(--color-dark);
+    }
+    input:focus-visible,
+    .chip:focus-visible,
+    .cta:focus-visible,
+    .limpiar:focus-visible{
+        outline: 3px solid var(--color-button);
+        outline-offset: 2px;
+    }
+    .chips{
+        display: flex;
+        flex-wrap: wrap;
+        gap: .4rem;
+    }
+    .chip{
+        padding: .4rem .8rem;
+        border: 1px solid var(--color-border-soft);
+        border-radius: 3rem;
+        background: #fff;
+        font: inherit;
+        font-size: .8rem;
+        color: var(--color-dark);
+        cursor: pointer;
+        transition: background-color .2s, border-color .2s;
+    }
+    .chip:hover{
+        background: var(--color-button);
+        border-color: var(--color-button);
+    }
+    .ayuda{
+        display: flex;
+        gap: .4rem;
+        font-size: .8rem;
+        line-height: 1.4;
+        color: var(--color-muted);
+    }
+    .ayuda :global(svg){
+        flex: none;
+        margin-top: .15em;
+    }
+    .limpiar{
+        align-self: flex-start;
+        padding: .5rem 1rem;
+        border: 0;
+        background: none;
+        font: inherit;
+        font-size: .85rem;
+        text-decoration: underline;
+        color: var(--color-muted);
+        cursor: pointer;
+    }
+    .calc-resultado{
+        background: var(--color-dark);
+        color: #fff;
+    }
+    h3{
+        font-size: 1.1rem;
+        margin-bottom: .75rem;
+    }
+    dl{
+        display: flex;
+        flex-direction: column;
+    }
+    .linea-res{
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: .6rem 0;
+        border-bottom: 1px solid rgb(255 255 255 / .12);
+        font-size: .9rem;
+    }
+    dt{
+        color: rgb(255 255 255 / .7);
+    }
+    dd{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        font-weight: 600;
+        text-align: right;
+    }
+    dd small{
+        font-size: .72rem;
+        font-weight: 400;
+        color: rgb(255 255 255 / .6);
+    }
+    .total{
+        display: flex;
+        flex-direction: column;
+        gap: .1rem;
+        margin: 1.1rem 0;
+        padding: 1rem;
+        border-radius: 1rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+    }
+    .total span{
+        font-size: .8rem;
+        font-weight: 600;
+    }
+    .total strong{
+        font-size: clamp(2rem, 1.5rem + 2vw, 2.6rem);
+        line-height: 1.1;
+    }
+    .total em{
+        font-style: normal;
+        font-size: .9rem;
+    }
+    .anticipo{
+        display: flex;
+        flex-direction: column;
+        gap: .4rem;
+        font-size: .85rem;
+    }
+    .anticipo div{
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        color: rgb(255 255 255 / .75);
+    }
+    .anticipo b{
+        color: #fff;
+    }
+    .cta{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+        min-height: 48px;
+        margin-top: 1.2rem;
+        padding: .8rem 1.2rem;
+        border-radius: 3rem;
+        background: #fff;
+        color: var(--color-dark);
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform .25s ease, background-color .25s ease;
+    }
+    @media (hover: hover){
+        .cta:hover{
+            transform: translateY(-2px);
+            background: var(--color-button);
+        }
+    }
+    .aviso{
+        margin-top: .8rem;
+        font-size: .75rem;
+        text-align: center;
+        color: rgb(255 255 255 / .55);
+    }
+    /* Sin datos todavía: se atenúan el total y el botón */
+    [data-vacio] .cta{
+        opacity: .6;
+    }
+    @media (min-width: 1024px){
+        .calc{
+            max-width: 80rem;
+        }
+        .calc-grid{
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            gap: 1.5rem;
+            max-width: none;
+        }
+        .calc-form,
+        .calc-resultado{
+            padding: 2rem;
+        }
+        .calc-resultado{
+            position: sticky;
+            top: 6rem;
+        }
+    }
+    @media (prefers-reduced-motion: reduce){
+        .cta,
+        .chip{
+            transition: none;
+        }
+        .cta:hover{
+            transform: none;
+        }
+    }
+</style>

@@ -1,0 +1,167 @@
+---
+import { ShieldCheck } from "@lucide/astro"
+
+// Para cambiar un dato: edita este arreglo.
+const stats = [
+    { valor: "+500", etiqueta: "Pedidos entregados" },
+    { valor: "7", etiqueta: "Marcas disponibles" },
+    { valor: "3–6", etiqueta: "Semanas de entrega" },
+    { valor: "100%", etiqueta: "Productos originales" },
+]
+---
+<section class="hero-about" aria-labelledby="hero-about-titulo">
+    <div class="hero-about__top">
+        <div class="hero-about__texto" data-reveal>
+            <span class="breadcrumb">[<a href="/">Inicio</a> / <strong>Nosotros</strong>]</span>
+            <h1 id="hero-about-titulo">Importamos lo que <span class="color">te impulsa</span></h1>
+            <p>
+                Somos Importadora Altum. Compramos directamente en las tiendas oficiales de las mejores marcas
+                deportivas de USA y las traemos a Bolivia, con un proceso claro y un precio que puedes calcular tú mismo.
+            </p>
+        </div>
+        <div class="hero-about__imagen" data-reveal style="--reveal-delay:120ms">
+            <div class="foto" role="img" aria-label="Equipo de Importadora Altum"></div>
+            <span class="badge"><ShieldCheck size="1.4rem" />Originales</span>
+        </div>
+    </div>
+    <p class="frase" data-reveal>
+        Nuestro compromiso es que importar sea <strong>simple y transparente</strong>.
+        <span>Sabes qué pagas, por qué lo pagas y cuándo llega tu pedido.</span>
+    </p>
+    <ul class="stats">
+        {
+            stats.map((s, i) => (
+                <li data-reveal style={`--reveal-delay:${i * 80}ms`}>
+                    <strong>{s.valor}</strong>
+                    <span>{s.etiqueta}</span>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+<style>
+    .hero-about{
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto 3rem;
+        padding-top: 7rem;
+    }
+    .hero-about__top{
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .breadcrumb{
+        font-size: .85rem;
+        color: var(--color-muted);
+    }
+    .breadcrumb a{
+        color: inherit;
+        text-decoration: none;
+    }
+    .breadcrumb a:hover{
+        color: var(--color-dark);
+    }
+    .breadcrumb strong{
+        color: var(--color-dark);
+    }
+    h1{
+        margin: .8rem 0 1rem;
+        font-size: clamp(2.2rem, 1.2rem + 4.5vw, 4.5rem);
+        line-height: 1.05;
+        letter-spacing: var(--letter-spacing-h1);
+        color: var(--color-dark);
+        text-wrap: balance;
+    }
+    .color{
+        background: var(--color-button);
+        padding: 0 .2em;
+        border-radius: .3em;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+    }
+    .hero-about__texto p{
+        max-width: 38rem;
+        color: var(--color-muted);
+        line-height: 1.5;
+        letter-spacing: var(--letter-spacing-text);
+    }
+    .hero-about__imagen{
+        position: relative;
+    }
+    .foto{
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: var(--radius-card);
+        background: var(--color-gray-bg) url('/images/about/equipo.webp') center / cover no-repeat;
+    }
+    .badge{
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .6rem 1rem;
+        border-radius: 3rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+        font-weight: 700;
+        font-size: .85rem;
+    }
+    .frase{
+        max-width: 52rem;
+        margin: 3.5rem auto 2rem;
+        text-align: center;
+        font-size: clamp(1.15rem, .9rem + 1.2vw, 1.8rem);
+        line-height: 1.35;
+        color: var(--color-dark);
+        letter-spacing: var(--letter-spacing-text);
+    }
+    .frase span{
+        color: var(--color-muted);
+    }
+    .stats{
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .stats li{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .2rem;
+        padding: 1.2rem .5rem;
+        background: var(--color-gray-bg);
+        border-radius: 1.2rem;
+        text-align: center;
+    }
+    .stats strong{
+        font-size: clamp(1.8rem, 1.2rem + 2vw, 2.6rem);
+        color: var(--color-dark);
+    }
+    .stats span{
+        font-size: .85rem;
+        color: var(--color-muted);
+    }
+    @media (min-width: 1024px){
+        .hero-about{
+            max-width: 80rem;
+        }
+        .hero-about__top{
+            flex-direction: row;
+            align-items: center;
+            gap: 4rem;
+        }
+        .hero-about__texto{
+            flex: 1.1;
+        }
+        .hero-about__imagen{
+            flex: 1;
+        }
+        .stats{
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+</style>

@@ -1,0 +1,204 @@
+---
+import { Search, Receipt, HandCoins, Scale, Calculator, Plane } from "@lucide/astro"
+import SectionTitle from "../SectionTitle.astro"
+
+// Para cambiar un paso: edita este arreglo. El orden define la numeración y alterna izquierda/derecha.
+const pasos = [
+    {
+        icon: Search,
+        title: "Eliges tu producto",
+        text: "Puedes elegir algo del catálogo disponible o pedirnos cualquier producto de la página oficial de la marca (por ejemplo, una hoodie de YoungLA).",
+        imagen: "/images/about/paso-1.webp",
+    },
+    {
+        icon: Receipt,
+        title: "Precio del producto + taxes",
+        text: "Partimos del precio de la marca (ej. $50). Al pagar en su tienda se aplican los taxes que la propia marca cobra sobre ese producto.",
+        imagen: "/images/about/paso-2.webp",
+    },
+    {
+        icon: HandCoins,
+        title: "Anticipo del 50% (solo por encargo)",
+        text: "Si el producto no está en nuestro sistema y hay que pedirlo desde la web de la marca, reservas con el 50% del valor. Los productos ya disponibles no requieren anticipo.",
+        imagen: "/images/about/paso-3.webp",
+    },
+    {
+        icon: Scale,
+        title: "Pesaje del producto",
+        text: "Cuando llega a nuestro almacén se pesa y el envío se cobra por kilo. Se redondea hacia arriba: 1.4 kg se cobra como 2 kg; si el peso es exacto, como 4 kg, se mantiene en 4 kg.",
+        imagen: "/images/about/paso-4.webp",
+    },
+    {
+        icon: Calculator,
+        title: "Total en dólares",
+        text: "Sumamos producto + taxes + costo por peso (+ servicio e impuesto). Ese es el total final en USD y el mismo que puedes estimar en la calculadora de abajo.",
+        imagen: "/images/about/paso-5.webp",
+    },
+    {
+        icon: Plane,
+        title: "Llega a Bolivia en 3 a 6 semanas",
+        text: "Importamos tu pedido y te avisamos cuando llega. Cancelas el saldo restante y coordinamos la entrega.",
+        imagen: "/images/about/paso-6.webp",
+    },
+]
+---
+<section class="proceso" aria-labelledby="proceso-titulo">
+    <SectionTitle
+        eyebrow="Paso a paso"
+        title="Así se procesa tu pedido"
+        subtitle="Desde que eliges tu prenda hasta que la recibes, todo el proceso es claro y sin sorpresas."
+        id="proceso-titulo"
+    />
+    <ol class="camino" data-timeline>
+        <span class="linea" aria-hidden="true"><span class="linea-relleno"></span></span>
+        {
+            pasos.map((paso, i) => (
+                <li class:list={["paso", { invertido: i % 2 === 1 }]} data-reveal>
+                    <div class="paso__imagen" style={`background-image:url('${paso.imagen}')`} aria-hidden="true">
+                        <span class="paso__numero">{String(i + 1).padStart(2, "0")}</span>
+                    </div>
+                    <div class="paso__texto">
+                        <span class="paso__icono"><paso.icon size="1.4rem" stroke-width={1.6} /></span>
+                        <h3>{paso.title}</h3>
+                        <p>{paso.text}</p>
+                    </div>
+                </li>
+            ))
+        }
+    </ol>
+</section>
+<style>
+    .proceso{
+        width: 100%;
+        max-width: 90%;
+        margin: 4rem auto;
+    }
+    .camino{
+        position: relative;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        max-width: 60rem;
+        margin: 0 auto;
+    }
+    /* Línea lateral que se rellena con el scroll (solo móvil) */
+    .linea{
+        position: absolute;
+        left: .35rem;
+        top: 1rem;
+        bottom: 1rem;
+        width: 3px;
+        border-radius: 3px;
+        background: var(--color-border-soft);
+        overflow: hidden;
+    }
+    .linea-relleno{
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: var(--color-button);
+        transform-origin: top;
+        transform: scaleY(var(--progress, 0));
+    }
+    .paso{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-left: 1.5rem;
+        padding: .75rem;
+        background: #fff;
+        border: 2px solid var(--color-dark);
+        border-radius: 1.5rem;
+    }
+    .paso__imagen{
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        border-radius: 1.1rem;
+        background-color: var(--color-gray-bg);
+        background-size: cover;
+        background-position: center;
+    }
+    .paso__numero{
+        position: absolute;
+        top: .6rem;
+        left: .6rem;
+        padding: .2rem .7rem;
+        border-radius: 3rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+        font-weight: 800;
+        font-size: .9rem;
+    }
+    .paso__texto{
+        padding: .25rem .5rem .6rem;
+    }
+    .paso__icono{
+        display: inline-grid;
+        place-items: center;
+        width: 2.6rem;
+        height: 2.6rem;
+        margin-bottom: .6rem;
+        border-radius: .9rem;
+        background: var(--color-gray-bg);
+        color: var(--color-dark);
+    }
+    h3{
+        font-size: 1.1rem;
+        color: var(--color-dark);
+        margin-bottom: .35rem;
+    }
+    .paso__texto p{
+        font-size: .92rem;
+        line-height: 1.5;
+        color: var(--color-muted);
+        letter-spacing: var(--letter-spacing-text);
+    }
+    @media (min-width: 1024px){
+        .proceso{
+            max-width: 80rem;
+        }
+        .linea{
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .camino{
+            gap: 1.75rem;
+        }
+        .paso{
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+            margin-left: 0;
+            width: 88%;
+            padding: 1rem;
+            /* Forma de "píldora" abierta hacia el lado del camino, como una ruta serpenteante */
+            border-radius: 6rem 1.5rem 1.5rem 6rem;
+        }
+        .paso.invertido{
+            flex-direction: row-reverse;
+            margin-left: auto;
+            border-radius: 1.5rem 6rem 6rem 1.5rem;
+        }
+        .paso__imagen{
+            flex: 0 0 42%;
+            aspect-ratio: 4 / 3;
+            border-radius: 5rem 1.1rem 1.1rem 5rem;
+        }
+        .invertido .paso__imagen{
+            border-radius: 1.1rem 5rem 5rem 1.1rem;
+        }
+        .paso__texto{
+            flex: 1;
+            padding: .5rem 1.25rem;
+        }
+        h3{
+            font-size: 1.3rem;
+        }
+        .paso__texto p{
+            font-size: 1rem;
+        }
+    }
+</style>

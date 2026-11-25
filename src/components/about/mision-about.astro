@@ -1,0 +1,124 @@
+---
+import { Check } from "@lucide/astro"
+
+// Para cambiar un bloque: edita este arreglo. El orden alterna imagen izquierda/derecha.
+const bloques = [
+    {
+        eyebrow: "Nuestra misión",
+        titulo: "Acercarte las mejores marcas",
+        texto: "Queremos que cualquier persona en Bolivia pueda vestir las marcas deportivas que ve en el mundo, sin intermediarios confusos ni sorpresas en el precio.",
+        puntos: ["Compras en tiendas oficiales", "Precios claros en dólares", "Acompañamiento en todo el proceso"],
+        imagen: "/images/about/mision.webp",
+    },
+    {
+        eyebrow: "Nuestra visión",
+        titulo: "Ser la importadora de confianza",
+        texto: "Aspiramos a ser la primera opción de quienes entrenan y quieren estilo: rápida, honesta y cercana.",
+        puntos: ["Pedidos cada vez más rápidos", "Catálogo siempre disponible", "Atención directa por WhatsApp"],
+        imagen: "/images/about/vision.webp",
+    },
+]
+---
+<section class="mision" aria-label="Misión y visión">
+    {
+        bloques.map((b, i) => (
+            <article class:list={["bloque", { invertido: i % 2 === 1 }]}>
+                <div class="bloque__imagen" data-reveal style={`background-image:url('${b.imagen}')`} role="img" aria-label={b.titulo}></div>
+                <div class="bloque__texto" data-reveal style="--reveal-delay:100ms">
+                    <span class="eyebrow">{b.eyebrow}</span>
+                    <h2>{b.titulo}</h2>
+                    <p>{b.texto}</p>
+                    <ul>
+                        {b.puntos.map((p) => (
+                            <li><Check size="1.1rem" stroke-width={2.5} />{p}</li>
+                        ))}
+                    </ul>
+                </div>
+            </article>
+        ))
+    }
+</section>
+<style>
+    .mision{
+        width: 100%;
+        max-width: 90%;
+        margin: 4rem auto;
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
+    }
+    .bloque{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    .bloque__imagen{
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: var(--radius-card);
+        background-color: var(--color-gray-bg);
+        background-size: cover;
+        background-position: center;
+    }
+    .eyebrow{
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+    }
+    h2{
+        margin: .5rem 0 .8rem;
+        font-size: clamp(1.5rem, 1rem + 2vw, 2.4rem);
+        letter-spacing: var(--letter-spacing-h1);
+        line-height: 1.1;
+        color: var(--color-dark);
+    }
+    .bloque__texto > p{
+        color: var(--color-muted);
+        line-height: 1.5;
+        letter-spacing: var(--letter-spacing-text);
+        max-width: 36rem;
+    }
+    ul{
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+        margin-top: 1.2rem;
+    }
+    li{
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+        color: var(--color-dark);
+        font-weight: 500;
+    }
+    li :global(svg){
+        flex: none;
+        padding: .2rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background: var(--color-button);
+        color: var(--color-text-button);
+    }
+    @media (min-width: 1024px){
+        .mision{
+            max-width: 80rem;
+            gap: 5rem;
+        }
+        .bloque{
+            flex-direction: row;
+            align-items: center;
+            gap: 4rem;
+        }
+        .bloque.invertido{
+            flex-direction: row-reverse;
+        }
+        .bloque__imagen,
+        .bloque__texto{
+            flex: 1;
+        }
+    }
+</style>

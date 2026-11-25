@@ -39,89 +39,131 @@ import FaqHome from "../components/faq-home.astro"
 </script>
 <style>
 	.pag-inicio{
+		--hero-h1: clamp(2.4rem, 1.4rem + 4.5vw, 6rem);
+		--hero-p: clamp(1rem, 0.9rem + 0.45vw, 1.375rem);
+		--hero-btn: clamp(1rem, 0.92rem + 0.3vw, 1.25rem);
+		--hero-gutter: clamp(1.25rem, 4vw, 5rem);
+
 		position: relative;
 		width: 100%;
-		height: 100vh;
+		min-height: 100svh;
 	}
 	.imagen{
 		position: absolute;
 		inset: 0;
 		background-image: url('/images/fondo-principal.png');
-		background-position: 60% 15% ;
+		background-position: 60% 15%;
 		background-repeat: no-repeat;
-		background-size: cover;		
-
-		width: 100%;
-		height: 100vh;
+		background-size: cover;
+	}
+	/* Overlay para que el texto blanco resalte sobre el fondo gris */
+	.imagen::after{
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgb(0 0 0 / .55) 0%, rgb(0 0 0 / .25) 40%, transparent 70%);
+		pointer-events: none;
 	}
 	.section-text-inicio{
-		width: 100%;
-		height: 100dvh;
 		position: relative;
 		z-index: 1;
+		width: 100%;
+		min-height: 100svh;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		align-items: start;
-		padding: 6rem 0rem 0rem 2rem;
-		
+		justify-content: flex-end;
+		align-items: flex-start;
+		padding: 6rem var(--hero-gutter) 8rem;
 	}
 	.section-text-inicio h1{
 		color: var(--color-text-h1);
-		max-width: 65%;
-		margin: 1rem 0rem;
-		font-size: clamp(var(--font-size-small-h1),var(--font-size-medium-h1),var(--font-size-desktop-h1));
+		max-width: 14ch;
+		margin: 0 0 1rem;
+		font-size: var(--hero-h1);
+		line-height: 1.05;
 		letter-spacing: var(--letter-spacing-h1);
-		}
+		text-wrap: balance;
+	}
 	.h1-color{
 		color: var(--color-text-h1-sp);
 	}
+	.section-text-inicio > p{
+		max-width: 42ch;
+		margin: 0;
+		color: white;
+		font-size: var(--hero-p);
+		line-height: 1.5;
+		letter-spacing: var(--letter-spacing-p);
+	}
 	.section-text-final{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem 2rem;
 		width: 100%;
+		margin-top: 1.5rem;
 	}
 	.section-text-final a{
 		display: inline-flex;
-		align-items:center;
+		align-items: center;
+		justify-content: center;
 		gap: .5rem;
-		background-color: var(--color-button);
-		padding: 1rem;
+		min-height: 48px;
+		padding: .9em 1.6em;
 		border-radius: 3rem;
-		text-decoration: none;
+		background-color: var(--color-button);
 		color: var(--color-text-button);
-		margin: 1rem 0rem;
-		font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
+		font-size: var(--hero-btn);
+		font-weight: 600;
+		text-decoration: none;
+		transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
 	}
-	.pag-inicio p{
-		max-width: 60%;
-		color: white;
-		font-size: clamp(var(--font-size-small),var(--font-size-medium),var(--font-size-desktop));
-		line-height: 1.4;
-		letter-spacing: var(--letter-spacing-p);
+	.section-text-final a :global(svg){
+		transition: transform .25s ease;
+	}
+	.section-text-final a:active{
+		transform: translateY(0);
+	}
+	.section-text-final a:focus-visible{
+		outline: 3px solid var(--color-button);
+		outline-offset: 3px;
 	}
 	.section-text-final p{
 		display: flex;
 		align-items: center;
-		gap: .3rem;
+		gap: .4rem;
+		margin: 0;
+		color: white;
+		font-size: var(--hero-p);
+		letter-spacing: var(--letter-spacing-p);
 	}
-	@media(min-width: 1024px){
-		.section-text-inicio h1{
-			max-width: 48%;
-			font-size: 4rem;
+	@media (hover: hover){
+		.section-text-final a:hover{
+			transform: translateY(-2px);
+			background-color: color-mix(in srgb, var(--color-button) 85%, white);
+			box-shadow: 0 10px 30px -8px var(--color-button);
 		}
-		.section-text-inicio p{
-			max-width: 43%;
+		.section-text-final a:hover :global(svg){
+			transform: translateX(4px);
 		}
-		.section-text-final{
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			max-width: 45%;
+	}
+	@media (prefers-reduced-motion: reduce){
+		.section-text-final a,
+		.section-text-final a :global(svg){
+			transition: none;
 		}
-		.section-text-final a{
-			margin-right: 3rem;
+		.section-text-final a:hover,
+		.section-text-final a:hover :global(svg){
+			transform: none;
 		}
-		.section-text-final p{
-			max-width: 43%;
+	}
+	@media (min-width: 1024px){
+		.section-text-inicio{
+			justify-content: center;
+			padding-bottom: 6rem;
+		}
+		.imagen::after{
+			background: linear-gradient(to right, rgb(0 0 0 / .5) 0%, rgb(0 0 0 / .2) 45%, transparent 70%);
 		}
 	}
 </style>

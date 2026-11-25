@@ -1,12 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro"
+import HeroAbout from "../components/about/hero-about.astro"
+import MisionAbout from "../components/about/mision-about.astro"
+import ProcesoAbout from "../components/about/proceso-about.astro"
+import OpcionesAbout from "../components/about/disponibles-vs-encargo-about.astro"
+import CalculadoraAbout from "../components/about/calculadora-about.astro"
 ---
-<Layout>
+<Layout title="Acerca de nosotros | Importadora Altum">
     <main>
-        <section>
-            <h1>
-                sjkdfjkergjkegjk
-            </h1>
-        </section>
+        <HeroAbout/>
+        <MisionAbout/>
+        <ProcesoAbout/>
+        <OpcionesAbout/>
+        <CalculadoraAbout/>
     </main>
 </Layout>
+<script>
+    import "../scripts/home-animations"
+</script>
