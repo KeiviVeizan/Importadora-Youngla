@@ -24,4 +24,4 @@ pnpm-debug.log*
 .idea/
 
 # fotos de perchero generadas automaticamente
-#public/images/productos/_perchero/
+public/images/productos/_perchero/

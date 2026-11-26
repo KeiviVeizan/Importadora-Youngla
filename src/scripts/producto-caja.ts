@@ -24,7 +24,7 @@ if (ficha) {
                 `• Marca: ${d.marca} (${d.genero})\n` +
                 `• Talla: ${talla}\n` +
                 `• Precio: $${d.precio} USD\n` +
-                `${d.url}`
+                `${location.origin}${location.pathname}`
             return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`
         }
 
@@ -57,6 +57,17 @@ if (ficha) {
         const completar = (talla: string) => {
             ocupado = true
             const destino = urlWhatsApp(talla)
+
+            // Se abre ya (durante el gesto del usuario) para que no la bloquee el navegador
+            const ventana = window.open("", "_blank")
+            if (ventana) ventana.opener = null
+
+            const ir = () => {
+                if (ventana) ventana.location.href = destino
+                else window.location.href = destino // si bloquearon popups, usa la misma pestaña
+            }
+
+
             if (reducir) {
                 window.location.href = destino
                 return
@@ -71,9 +82,7 @@ if (ficha) {
             tirador.style.transition = "transform .4s, opacity .3s"
             tirador.style.opacity = "0"
             window.setTimeout(() => caja.classList.add("cerrada"), 650)
-            window.setTimeout(() => {
-                window.location.href = destino
-            }, 1500)
+            window.setTimeout(ir, 1500);
         }
 
         const intentar = () => {
@@ -137,6 +146,18 @@ if (ficha) {
         tallas?.addEventListener("change", () => {
             tallas.classList.remove("pedir")
             if (pista && disponible) pista.textContent = "Desliza hacia abajo para pedir"
+        })
+        //para restablecer todo supuestamente 
+        window.addEventListener("pageshow", (e) => {
+            if (!e.persisted) return
+            ocupado = false
+            caja.classList.remove("cerrada")
+            prenda.style.transition = ""
+            prenda.style.transform = ""
+            prenda.style.opacity = ""
+            tirador.style.transition = ""
+            tirador.style.transform = ""
+            tirador.style.opacity = ""
         })
     }
 }
