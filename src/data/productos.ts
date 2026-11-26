@@ -99,7 +99,7 @@ const base: ProductoBase[] = [
         id: "tshirt-01", nombre: "Camiseta YoungLA", marca: "youngla", genero: "hombre", tipo: "superior", precio: 30, tallas: ["S", "M", "L", "XL"], disponible: true,
         imagenes: [
             { src: "youngla-product-tshirt-01-delante-sin-fondo.webp", alt: "Camiseta YoungLA, vista de frente" },
-            { src: "youngla-product-tshirt-01-atras-sin-fondo.webp", alt: "Camiseta YoungLA, vista de espalda" },
+            { src: "youngla/youngla-product-tshirt-01-atras-sin-fondo.webp", alt: "Camiseta YoungLA, vista de espalda" },
         ],
     },
     {

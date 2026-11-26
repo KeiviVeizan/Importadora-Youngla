@@ -1,4 +1,19 @@
 {
+    "youngla/youngla-mujer-01/0": {
+        "ancho": 0.833,
+        "alto": 0.509,
+        "src": "racing-crewneck-frente.webp"
+    },
+    "youngla/jean-cargo-01/0": {
+        "ancho": 0.707,
+        "alto": 0.933,
+        "src": "youngla-product-jean-cargo-01-sin-fondo.webp"
+    },
+    "youngla/racing-crewneck/2": {
+        "ancho": 0.833,
+        "alto": 0.452,
+        "src": "youngla-product-tshirt-01-atras-sin-fondo.webp"
+    },
     "youngla/racing-crewneck/1": {
         "ancho": 0.833,
         "alto": 0.627,
@@ -9,29 +24,9 @@
         "alto": 0.509,
         "src": "racing-crewneck-frente.webp"
     },
-    "youngla/youngla-mujer-01/0": {
-        "ancho": 0.833,
-        "alto": 0.509,
-        "src": "racing-crewneck-frente.webp"
-    },
-    "youngla/racing-crewneck/2": {
-        "ancho": 0.833,
-        "alto": 0.452,
-        "src": "youngla-product-tshirt-01-atras-sin-fondo.webp"
-    },
-    "youngla/jean-cargo-01/0": {
-        "ancho": 0.707,
-        "alto": 0.933,
-        "src": "youngla-product-jean-cargo-01-sin-fondo.webp"
-    },
     "youngla/tshirt-01/0": {
         "ancho": 0.833,
         "alto": 0.441,
         "src": "youngla-product-tshirt-01-delante-sin-fondo.webp"
-    },
-    "youngla/tshirt-01/1": {
-        "ancho": 0.833,
-        "alto": 0.452,
-        "src": "youngla-product-tshirt-01-atras-sin-fondo.webp"
     }
 }
