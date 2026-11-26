@@ -1,0 +1,94 @@
+---
+// Prenda colgada. Sirve para cualquier foto normalizada con `normalizarPrenda` (lienzo 1200x1500,
+// prenda pegada ARRIBA y centrada) y cualquier tipo:
+//  - superior:  percha de hombros escondida detrás; solo asoma el gancho saliendo del cuello.
+//  - inferior:  percha de pinzas delante, mordiendo la pretina.
+//  - accesorio: sin percha, apoyado con una sombra debajo.
+// Todas las medidas salen de --ancho / --alto (tamaño real de la prenda como fracción del lienzo),
+// así que no hay números a mano por producto.
+import Gancho from "./Gancho.astro"
+import GanchoPinzas from "./GanchoPinzas.astro"
+
+// encaje (opcional): fracción del ancho disponible que ocupa la caja común donde cabe la prenda
+// (se escala manteniendo proporciones). Sin encaje, la prenda se dibuja a su tamaño natural (ficha).
+const { src, alt = "", tipo = "superior", meta = { ancho: 1, alto: 1 }, encaje, vtName, loading = "lazy", ...resto } = Astro.props
+const escala = encaje ? Math.min(encaje / meta.ancho, encaje / (meta.alto * 1.25)) : undefined
+---
+<div
+    class="pc"
+    data-tipo={tipo}
+    data-encaje={encaje ? "" : undefined}
+    style={`--ancho:${meta.ancho};--alto:${meta.alto}${escala ? `;--escala:${escala.toFixed(4)}` : ""}`}
+    data-prenda
+>
+    <div class="caja">
+        {tipo === "superior" && <div class="percha"><Gancho /></div>}
+        <img
+            class="foto"
+            src={src}
+            alt={alt}
+            width="1200"
+            height="1500"
+            loading={loading}
+            decoding="async"
+            style={vtName ? `view-transition-name: ${vtName}` : undefined}
+            {...resto}
+        />
+        {tipo === "inferior" && <div class="pinzas-caja"><GanchoPinzas /></div>}
+    </div>
+</div>
+<style>
+    .pc{
+        container-type: inline-size;
+        width: 100%;
+    }
+    .pc[data-encaje]{
+        width: calc(var(--escala) * 100%);
+        margin-inline: auto;
+    }
+    .caja{
+        --top: calc(var(--ancho) * 5.5cqw);
+        position: relative;
+        height: calc(var(--top) + var(--alto) * 125cqw);
+        overflow: clip;
+        overflow-clip-margin: 2.5rem; /* deja ver la sombra que cae bajo la prenda */
+    }
+    .foto{
+        position: absolute;
+        left: 0;
+        top: var(--top);
+        z-index: 1;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 14px 12px rgba(0, 0, 0, .22));
+        transition: transform .5s var(--ease-out), opacity .4s;
+    }
+
+    /* Hombros: más angosta que la prenda para que la madera quede siempre tapada. */
+    .percha{
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 0;
+        width: calc(var(--ancho) * 44cqw);
+        transform: translateX(-50%);
+    }
+
+    /* Pinzas: la barra mide lo mismo que la prenda; la pretina cae bajo las pinzas (y=40 de 60). */
+    [data-tipo="inferior"] .caja{
+        --top: calc(var(--ancho) * 20cqw);
+    }
+    .pinzas-caja{
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 2;
+        width: calc(var(--ancho) * 100cqw);
+        transform: translateX(-50%);
+    }
+
+    /* Accesorios: apoyados, sin percha */
+    [data-tipo="accesorio"] .caja{
+        --top: 4cqw;
+    }
+</style>

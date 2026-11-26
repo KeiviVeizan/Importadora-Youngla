@@ -1,0 +1,24 @@
+---
+// Percha de madera con gancho metálico. El extremo superior del gancho (y=4) se alinea con la barra.
+// Va DETRÁS de la prenda: la prenda tapa los brazos y solo asoman los hombros y el gancho.
+---
+<svg class="gancho" viewBox="0 0 200 70" aria-hidden="true" focusable="false">
+    <defs>
+        <linearGradient id="madera" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#d9b384" />
+            <stop offset="1" stop-color="#a97c4c" />
+        </linearGradient>
+    </defs>
+    <path d="M100 40 V27 C100 19 111.500 18 111.500 10 C111.500 4 106 1.500 101.500 4.500" fill="none" stroke="#8d8d8d" stroke-width="2.200" stroke-linecap="round" />
+    <path d="M100 38 C84 41 40 49 12 58 Q3 61 6 65 Q9 67.500 16 66 L100 54 L184 66 Q191 67.500 194 65 Q197 61 188 58 C160 49 116 41 100 38 Z" fill="url(#madera)" stroke="#8a6238" stroke-width=".8" stroke-linejoin="round" />
+    <rect x="96" y="35" width="8" height="6" rx="2" fill="#8d8d8d" />
+</svg>
+<style>
+    .gancho{
+        display: block;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .18));
+        overflow: visible;
+    }
+</style>

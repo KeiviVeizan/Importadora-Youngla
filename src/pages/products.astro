@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/Layout.astro"
+import ProductsHero from "../components/products/ProductsHero.astro"
+import SelectorCard from "../components/products/SelectorCard.astro"
+import { marcas } from "../data/productos"
+---
+<Layout title="Productos | Importadora Altum">
+    <main>
+        <ProductsHero
+            migas={[{ nombre: "Inicio", href: "/" }, { nombre: "Productos" }]}
+            titulo="Elige tu marca"
+            subtitulo="Selecciona la marca que quieres ver y explora lo disponible."
+        />
+        <ul class="selector-grid">
+            {marcas.map((m, i) => (
+                <SelectorCard href={`/products/${m.id}`} nombre={m.nombre} imagen={m.imagen} alt={`Ropa deportiva ${m.nombre}`} delay={i * 100} />
+            ))}
+        </ul>
+    </main>
+</Layout>
+<style>
+    .selector-grid{
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto 4rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+    @media (min-width: 768px){
+        .selector-grid{
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (min-width: 1024px){
+        .selector-grid{
+            max-width: 80rem;
+        }
+    }
+</style>
+<script>
+    import "../scripts/home-animations"
+</script>

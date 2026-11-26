@@ -1,0 +1,124 @@
+---
+// Tirador "desliza para pedir" + caja. La lógica está en scripts/producto-caja.ts.
+const { marca, disponible = true, fallbackHref } = Astro.props
+---
+<div class="pedido" data-pedido>
+    <p class="pista" data-pista>{disponible ? "Desliza hacia abajo para pedir" : "Agotado · consúltanos por WhatsApp"}</p>
+    <a class="tirador" data-tirador href={fallbackHref} role="button" aria-label={disponible ? "Pedir por WhatsApp" : "Consultar por WhatsApp"} aria-disabled={!disponible} class:list={{ deshabilitado: !disponible }}>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 7h12l1 13H5L6 7Z" /><path d="M9 10V6a3 3 0 0 1 6 0v4" />
+        </svg>
+        <svg class="chevrons" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m7 5 5 5 5-5" /><path d="m7 12 5 5 5-5" />
+        </svg>
+    </a>
+    <div class="caja" data-caja aria-hidden="true">
+        <div class="solapa solapa-izq"></div>
+        <div class="solapa solapa-der"></div>
+        <div class="interior"></div>
+        <div class="frente"><span>{marca}</span></div>
+        <div class="listo" data-listo>✓</div>
+    </div>
+</div>
+<style>
+    .pedido{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    .pista{
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        margin-bottom: .6rem;
+    }
+    .tirador{
+        position: relative;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+        width: 3.6rem;
+        padding: .9rem 0 .7rem;
+        border-radius: 3rem;
+        background: var(--color-dark);
+        color: #fff;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+        -webkit-user-select: none;
+        text-decoration: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .tirador:active{ cursor: grabbing; }
+    .tirador.deshabilitado{ opacity: .45; cursor: not-allowed; }
+    .chevrons{ animation: bajar 1.4s ease-in-out infinite; }
+    .tirador:focus-visible{ outline: 2px solid var(--color-text-a-hover); outline-offset: 4px; }
+    @keyframes bajar{
+        0%, 100%{ transform: translateY(-2px); opacity: .5; }
+        50%{ transform: translateY(3px); opacity: 1; }
+    }
+
+    .caja{
+        position: relative;
+        z-index: 2;
+        width: min(15rem, 70%);
+        height: 4.5rem;
+        margin-top: -1.4rem;
+    }
+    .interior{
+        position: absolute;
+        inset: 0 .5rem auto;
+        height: 2.2rem;
+        background: linear-gradient(#8a6a42, #b48a55);
+        border-radius: .3rem .3rem 0 0;
+        box-shadow: inset 0 6px 10px rgba(0, 0, 0, .35);
+    }
+    .frente{
+        position: absolute;
+        inset: 1.6rem 0 0;
+        display: grid;
+        place-items: center;
+        background: var(--color-border);
+        border-radius: .2rem;
+        color: #fff;
+        font-weight: 800;
+        font-style: italic;
+        font-size: 1.3rem;
+        letter-spacing: -.02em;
+        text-transform: uppercase;
+    }
+    .solapa{
+        position: absolute;
+        top: -.1rem;
+        width: 50%;
+        height: 1.8rem;
+        background: color-mix(in srgb, var(--color-border) 82%, #fff);
+        transition: transform .5s var(--ease-out);
+    }
+    .solapa-izq{ left: 0; transform-origin: left bottom; transform: rotate(-38deg) translateY(-.2rem); }
+    .solapa-der{ right: 0; transform-origin: right bottom; transform: rotate(38deg) translateY(-.2rem); }
+    .caja.cerrada .solapa-izq, .caja.cerrada .solapa-der{ transform: none; }
+    .listo{
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        font-size: 2rem;
+        color: #fff;
+        opacity: 0;
+        transform: scale(.5);
+        transition: opacity .3s .2s, transform .3s .2s var(--ease-out);
+        z-index: 4;
+    }
+    .caja.cerrada .listo{ opacity: 1; transform: none; }
+    .sacudir{ animation: sacudir .4s; }
+    @keyframes sacudir{
+        0%, 100%{ transform: translateX(0); }
+        25%{ transform: translateX(-6px); }
+        75%{ transform: translateX(6px); }
+    }
+</style>

@@ -1,0 +1,112 @@
+---
+import { ArrowRight } from "@lucide/astro"
+
+// Tarjeta para elegir marca o género: imagen con el nombre encima.
+// En hover la imagen se oscurece y el nombre sobresale.
+const { href, nombre, imagen, alt = nombre, delay = 0 } = Astro.props
+---
+<li class="selector" data-reveal style={`--reveal-delay:${delay}ms`}>
+    <a href={href}>
+        <img src={imagen} alt={alt} width="600" height="800" loading="lazy" decoding="async" />
+        <span class="selector-info">
+            <span class="selector-nombre">{nombre}</span>
+            <span class="selector-cta">Ver colección <ArrowRight size="1em" /></span>
+        </span>
+    </a>
+</li>
+<style>
+    .selector{
+        list-style: none;
+    }
+    .selector a{
+        position: relative;
+        display: block;
+        aspect-ratio: var(--selector-ratio, 3 / 4);
+        border-radius: var(--radius-card);
+        overflow: hidden;
+        background: var(--color-dark);
+        color: #fff;
+        text-decoration: none;
+    }
+    .selector img{
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: var(--selector-pos, center);
+        transition: transform .7s var(--ease-out);
+    }
+    /* Capa oscura: sube de opacidad en hover */
+    .selector a::after{
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #000;
+        opacity: .25;
+        transition: opacity .4s var(--ease-out);
+    }
+    .selector-info{
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: .8rem;
+        text-align: center;
+        padding: 1rem;
+    }
+    .selector-nombre{
+        font-size: clamp(1.8rem, 6vw, 2.8rem);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: var(--letter-spacing-h1);
+        line-height: 1;
+        transition: transform .4s var(--ease-out), letter-spacing .4s var(--ease-out);
+    }
+    .selector-cta{
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: .55rem 1rem;
+        border-radius: 3rem;
+        background: var(--color-button);
+        color: var(--color-text-button);
+        font-size: .85rem;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+    }
+    .selector a:hover img,
+    .selector a:focus-visible img{
+        transform: scale(1.06);
+    }
+    .selector a:hover::after,
+    .selector a:focus-visible::after{
+        opacity: .6;
+    }
+    .selector a:hover .selector-nombre,
+    .selector a:focus-visible .selector-nombre{
+        transform: scale(1.1);
+        letter-spacing: 0;
+    }
+    .selector a:hover .selector-cta,
+    .selector a:focus-visible .selector-cta{
+        opacity: 1;
+        transform: none;
+    }
+    /* Pantallas táctiles: no hay hover, así que el botón se ve siempre */
+    @media (hover: none){
+        .selector-cta{
+            opacity: 1;
+            transform: none;
+        }
+    }
+    .selector a:focus-visible{
+        outline: 3px solid var(--color-button);
+        outline-offset: 3px;
+    }
+</style>

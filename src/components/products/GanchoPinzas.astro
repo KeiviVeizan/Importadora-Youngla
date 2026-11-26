@@ -1,0 +1,26 @@
+---
+// Percha de pinzas para prendas inferiores (jogger, short, jean, legging).
+// El SVG mide lo mismo que el ancho de la prenda; las pinzas están en el 12% y el 88%.
+// Barra en y=34; las pinzas bajan hasta y=52 y muerden la pretina (que queda en y=40).
+---
+<svg class="pinzas" viewBox="0 0 200 60" aria-hidden="true" focusable="false">
+    <path d="M100 34 V22 C100 15 110 14 110 8 C110 3 105 1.500 101.500 4" fill="none" stroke="#8d8d8d" stroke-width="2" stroke-linecap="round" />
+    <rect x="8" y="32" width="184" height="4" rx="2" fill="#4a4a4a" />
+    <g fill="#2a2a2a" stroke="#111" stroke-width=".6">
+        <rect x="20" y="33" width="9" height="19" rx="2.500" />
+        <rect x="171" y="33" width="9" height="19" rx="2.500" />
+    </g>
+    <g fill="#8d8d8d">
+        <rect x="22" y="34" width="5" height="3" rx="1" />
+        <rect x="173" y="34" width="5" height="3" rx="1" />
+    </g>
+</svg>
+<style>
+    .pinzas{
+        display: block;
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .2));
+        overflow: visible;
+    }
+</style>

@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# fotos de perchero generadas automaticamente
+public/images/productos/_perchero/

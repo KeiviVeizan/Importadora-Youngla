@@ -1,0 +1,52 @@
+---
+import Layout from "../../../layouts/Layout.astro"
+import ProductsHero from "../../../components/products/ProductsHero.astro"
+import SelectorCard from "../../../components/products/SelectorCard.astro"
+import { marcas, generos } from "../../../data/productos"
+
+export function getStaticPaths() {
+    return marcas.map((marca) => ({ params: { marca: marca.id }, props: { marca } }))
+}
+
+const { marca } = Astro.props
+---
+<Layout title={`${marca.nombre} | Importadora Altum`}>
+    <main>
+        <ProductsHero
+            migas={[{ nombre: "Inicio", href: "/" }, { nombre: "Productos", href: "/products" }, { nombre: marca.nombre }]}
+            titulo={marca.nombre}
+            subtitulo="¿Qué ropa estás buscando?"
+        />
+        <ul class="selector-grid">
+            {generos.map((g, i) => (
+                <SelectorCard href={`/products/${marca.id}/${g.id}`} nombre={g.nombre} imagen={g.imagen} alt={`${marca.nombre} para ${g.nombre.toLowerCase()}`} delay={i * 100} />
+            ))}
+        </ul>
+    </main>
+</Layout>
+<style>
+    .selector-grid{
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto 4rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        --selector-ratio: 4 / 5;
+        --selector-pos: 70% 20%; /* sube el encuadre para que se vea la cabeza y no solo el torso */
+    }
+    @media (min-width: 768px){
+        .selector-grid{
+            grid-template-columns: repeat(2, 1fr);
+            --selector-ratio: 1 / 1;
+        }
+    }
+    @media (min-width: 1024px){
+        .selector-grid{
+            max-width: min(90%, 80rem);
+        }
+    }
+</style>
+<script>
+    import "../../../scripts/home-animations"
+</script>

@@ -1,0 +1,60 @@
+---
+// Encabezado común de la sección de productos.
+// migas: [{ nombre, href? }]; la última (sin href) es la página actual.
+const { migas = [], titulo, subtitulo } = Astro.props
+---
+<section class="products-hero">
+    <div data-reveal>
+        <span class="breadcrumb">
+            [{migas.map((m: { nombre: string; href?: string }, i: number) => (
+                <>
+                    {i > 0 && " / "}
+                    {m.href ? <a href={m.href}>{m.nombre}</a> : <strong>{m.nombre}</strong>}
+                </>
+            ))}]
+        </span>
+        <h1>{titulo}</h1>
+        {subtitulo && <p>{subtitulo}</p>}
+    </div>
+</section>
+<style>
+    .products-hero{
+        width: 100%;
+        max-width: 90%;
+        margin: 0 auto 2rem;
+        padding-top: 7rem;
+    }
+    .breadcrumb{
+        font-size: .85rem;
+        color: var(--color-muted);
+    }
+    .breadcrumb a{
+        color: inherit;
+        text-decoration: none;
+    }
+    .breadcrumb a:hover{
+        color: var(--color-dark);
+    }
+    .breadcrumb strong{
+        color: var(--color-dark);
+    }
+    h1{
+        margin: .8rem 0 .8rem;
+        font-size: clamp(2.2rem, 1.2rem + 4.5vw, 4rem);
+        line-height: 1.05;
+        letter-spacing: var(--letter-spacing-h1);
+        color: var(--color-dark);
+        text-wrap: balance;
+    }
+    p{
+        max-width: 38rem;
+        color: var(--color-muted);
+        line-height: 1.5;
+        letter-spacing: var(--letter-spacing-text);
+    }
+    @media (min-width: 1024px){
+        .products-hero{
+            max-width: min(90%, 80rem);
+        }
+    }
+</style>

@@ -38,6 +38,16 @@
     --ease-out: cubic-bezier(.2,.7,.2,1);
 }
 
+/* Transición nativa entre páginas (la prenda "vuela" del perchero a su ficha).
+   Navegadores sin soporte simplemente navegan normal. */
+@view-transition{
+    navigation: auto;
+}
+::view-transition-group(*){
+    animation-duration: .5s;
+    animation-timing-function: var(--ease-out);
+}
+
 /* Animación de aparición al hacer scroll.
    Solo se oculta si el script puso la clase "js": sin JS el contenido se ve normal. */
 .js [data-reveal]{

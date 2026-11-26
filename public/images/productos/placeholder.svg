@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a4a4a"/>
+      <stop offset="1" stop-color="#1f1f1f"/>
+    </linearGradient>
+  </defs>
+  <path d="M140 18 Q200 70 260 18 L352 70 L394 160 L332 188 L308 150 L308 470 Q200 482 92 470 L92 150 L68 188 L6 160 L48 70 Z" fill="url(#g)"/>
+  <path d="M140 18 Q200 70 260 18 Q262 40 252 52 Q200 92 148 52 Q138 40 140 18 Z" fill="#161616"/>
+  <path d="M92 150 L92 470 M308 150 L308 470" stroke="#fff" stroke-opacity=".06" stroke-width="3"/>
+  <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="34" fill="#fff" fill-opacity=".85" letter-spacing="4">ALTUM</text>
+</svg>

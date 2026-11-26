@@ -1,0 +1,120 @@
+---
+// Prenda colgada en el perchero. Todo el item es un enlace a la ficha del producto.
+import PrendaColgada from "./PrendaColgada.astro"
+
+const { producto, indice, delay = 0 } = Astro.props
+const numero = String(indice + 1).padStart(2, "0")
+---
+<li class="colgado" class:list={{ agotado: !producto.disponible }} data-reveal style={`--reveal-delay:${delay}ms`}>
+    <a href={`/products/${producto.marca}/${producto.genero}/${producto.id}`}>
+        <div class="percha">
+            <PrendaColgada src={producto.imagen.src} alt={producto.imagen.alt} tipo={producto.tipo} meta={producto.meta} encaje={0.8} vtName={`prenda-${producto.id}`} />
+            {!producto.disponible && <span class="etiqueta">Agotado</span>}
+        </div>
+        <div class="datos">
+            <span class="numero">{numero}</span>
+            <h3>{producto.nombre}</h3>
+            <p class="precio">${producto.precio}</p>
+        </div>
+    </a>
+</li>
+<style>
+    .colgado{
+        list-style: none;
+        position: relative;
+        container-type: inline-size;
+        padding-top: .5rem;
+    }
+    /* Barra del perchero: cruza toda la fila */
+    .colgado::before{
+        content: "";
+        position: absolute;
+        top: .5rem;
+        left: -.6rem;
+        right: -.6rem;
+        height: 3px;
+        border-radius: 3px;
+        background: linear-gradient(#4a4a4a, #1c1c1c);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .15);
+    }
+    a{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        color: inherit;
+        text-decoration: none;
+    }
+    /* La percha y la prenda se balancean juntas desde la barra */
+    .percha{
+        position: relative;
+        transform-origin: 50% 0;
+        aspect-ratio: 1 / 1; /* mismo escenario para todas las prendas */
+    }
+    .agotado :global(.foto){
+        filter: grayscale(1) drop-shadow(0 14px 12px rgba(0, 0, 0, .12));
+        opacity: .6;
+    }
+    .etiqueta{
+        position: absolute;
+        bottom: 2.4rem;
+        right: 6%;
+        z-index: 3;
+        padding: .25rem .6rem;
+        border-radius: .3rem;
+        background: var(--color-dark);
+        color: #fff;
+        font-size: .7rem;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+    }
+    .datos{
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+        margin-top: auto; /* el texto queda alineado abajo aunque las prendas midan distinto */
+        padding-top: 1rem;
+    }
+    .numero{
+        font-size: .72rem;
+        color: var(--color-text-a-hover);
+        letter-spacing: .08em;
+    }
+    h3{
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--color-dark);
+        letter-spacing: var(--letter-spacing-text);
+    }
+    .precio{
+        font-size: .85rem;
+        color: var(--color-muted);
+    }
+    a:focus-visible{
+        outline: 2px solid var(--color-text-a-hover);
+        outline-offset: 4px;
+        border-radius: .5rem;
+    }
+
+    @media (hover: hover){
+        .percha{
+            transition: opacity .4s;
+        }
+        .colgado:hover .percha{
+            animation: balanceo 1.3s var(--ease-out);
+        }
+        .colgado:hover :global(.foto){
+            transform: translateY(-6px) scale(1.03);
+        }
+        :global(.perchero:has(.colgado:hover) .colgado:not(:hover) .percha){
+            opacity: .5;
+        }
+    }
+    @keyframes balanceo{
+        0%{ transform: rotate(0); }
+        25%{ transform: rotate(1.6deg); }
+        55%{ transform: rotate(-1.1deg); }
+        80%{ transform: rotate(.4deg); }
+        100%{ transform: rotate(0); }
+    }
+</style>
